@@ -26,7 +26,7 @@ require 'wbench/version'
 
 module WBench
   CAPYBARA_DRIVER  = :wbench_browser
-  CAPYBARA_TIMEOUT = 60
+  CAPYBARA_TIMEOUT = 300
   DEFAULT_LOOPS    = 10
   DEFAULT_BROWSER  = :chrome
 
