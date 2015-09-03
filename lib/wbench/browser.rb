@@ -70,8 +70,16 @@ module WBench
     def wait_for_page
       Selenium::WebDriver::Wait.new(:timeout => CAPYBARA_TIMEOUT).until do
         is_finished_load_event_end = session.evaluate_script('window.performance.timing.loadEventEnd').to_i > 0
-        ( is_finished_load_event_end && is_finished_mark )
+        ( is_finished_load_event_end && is_finished_mark_process )
       end
+    end
+
+    def is_finished_mark_process
+      loop do
+        sleep 1
+        break if is_finished_mark
+      end
+      true
     end
 
     def is_finished_mark
@@ -81,9 +89,9 @@ module WBench
         marks.each do |mark|
           case mark['name']
           when /^(Start:)/
-            start_count = start_count + 1
+            start_count += 1
           when /^(Finished:)/
-            finished_count = finished_count + 1
+            finished_count += 1
           end
         end
         ( start_count === finished_count )
